@@ -15,12 +15,12 @@ namespace TrainServiceAPI.Repositorio
 
         public async Task<VehicleModels> BuscarPorID(int id)
         {
-            return await _dbContext.Veiculos.Include((x) => x.Train).FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Veiculos.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<VehicleModels>> BuscarTodosOsVeiculos()
         {
-            return await _dbContext.Veiculos.Include((x) => x.Train). ToListAsync();
+            return await _dbContext.Veiculos. ToListAsync();
         }
 
         public async Task<VehicleModels> Adicionar(VehicleModels vehicle)
@@ -42,7 +42,6 @@ namespace TrainServiceAPI.Repositorio
 
             veiculoPorID.TipoDeVeiculo = vehicle.TipoDeVeiculo;
             veiculoPorID.CodVeiculo = vehicle.CodVeiculo;
-            veiculoPorID.TrainId = vehicle.TrainId;
             //veiculoPorID.Status = vehicle.Status;
 
             _dbContext.Veiculos.Update(veiculoPorID);

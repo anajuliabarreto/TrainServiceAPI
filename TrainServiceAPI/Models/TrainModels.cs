@@ -13,7 +13,7 @@ namespace TrainServiceAPI.Models
         public required DateTime DataHoraPartida { get; set; }
 
         [JsonIgnore]
-        public ICollection<VehicleModels>? Veiculos { get; set; } // Posso ter veiculos associados 
+        public ICollection<TrainComposition>? TremVeiculo { get; set; } // Posso ter veiculos associados 
     }
 
 }
