@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace TrainServiceAPI.Models
 {
     public class TrainModels
@@ -10,7 +12,8 @@ namespace TrainServiceAPI.Models
         public required string Ferrovia { get; set; }
         public required DateTime DataHoraPartida { get; set; }
 
-        public ICollection<VehicleModels>? Veiculo { get; set; }
+        [JsonIgnore]
+        public ICollection<VehicleModels>? Veiculos { get; set; } // Posso ter veiculos associados 
     }
 
 }

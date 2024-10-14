@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿// A classe que vai ser mapeada e servir como base para tabela de trens 
+using System.Text.Json.Serialization;
 
 namespace TrainServiceAPI.Models
 {
@@ -8,8 +9,10 @@ namespace TrainServiceAPI.Models
         public required string TipoDeVeiculo { get; set; }
         public required int CodVeiculo { get; set; }
         public int? TrainId { get; set; } //Pode ser nulo pois posso criar um veículo sem vincular a algum trem
-        [JsonIgnore]
         public TrainModels? Train { get; set; }
+
+        [JsonIgnore]
+        public ICollection<TrainModels>? Trens { get; set; }
 
         //public int RelationVehicles Status { get; set; }
     }

@@ -15,7 +15,9 @@ namespace TrainServiceAPI.Repositorio
 
         public async Task<TrainModels> BuscarPorID(int id)
         {
-            return await _dbContext.Trens.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Trens
+                .Include((x) => x.Veiculos)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<TrainModels>> BuscarTodosOsTrens()

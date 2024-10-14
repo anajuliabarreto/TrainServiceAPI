@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainServiceAPI.Data;
 
@@ -11,9 +12,11 @@ using TrainServiceAPI.Data;
 namespace TrainServiceAPI.Migrations
 {
     [DbContext(typeof(TrainServiceDBContext))]
-    partial class TrainServiceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241011174733_TrainVehicleRelation")]
+    partial class TrainVehicleRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +58,7 @@ namespace TrainServiceAPI.Migrations
 
                     b.HasIndex("VehicleModelsId");
 
-                    b.ToTable("Trens", (string)null);
+                    b.ToTable("Trens");
                 });
 
             modelBuilder.Entity("TrainServiceAPI.Models.VehicleModels", b =>
@@ -80,7 +83,7 @@ namespace TrainServiceAPI.Migrations
 
                     b.HasIndex("TrainId");
 
-                    b.ToTable("Veiculos", (string)null);
+                    b.ToTable("Veiculos");
                 });
 
             modelBuilder.Entity("TrainServiceAPI.Models.TrainModels", b =>
