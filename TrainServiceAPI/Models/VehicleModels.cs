@@ -10,7 +10,7 @@ namespace TrainServiceAPI.Models
         public required int CodVeiculo { get; set; }
 
         [JsonIgnore]
-        public ICollection<TrainComposition>? TremVeiculo { get; set; }
+        public ICollection<TrainModels>? Trens { get; set; }
 
         //public int RelationVehicles Status { get; set; }
     }

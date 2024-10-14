@@ -12,6 +12,7 @@ namespace TrainServiceAPI.Data.Map
             builder.Property(x => x.TipoDeVeiculo).IsRequired();
             builder.Property(x => x.CodVeiculo).IsRequired();
             //builder.Property(x => x.Status).IsRequired();
+            builder.HasMany((x) => x.Trens).WithMany((x) => x.Veiculos);
         }
     }
 }
