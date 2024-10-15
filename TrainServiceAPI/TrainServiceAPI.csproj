@@ -28,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DTO\VehicleDTO\" />
+    <Folder Include="DTO\TrainDTO\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

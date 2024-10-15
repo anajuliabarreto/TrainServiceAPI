@@ -15,16 +15,35 @@ namespace TrainServiceAPI.Repositorio
 
         public async Task<VehicleModels> BuscarPorID(int id)
         {
-            return await _dbContext.Veiculos.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Veiculos
+                .Include((x) => x.Trens)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<VehicleModels>> BuscarTodosOsVeiculos()
         {
-            return await _dbContext.Veiculos. ToListAsync();
+            return await _dbContext.Veiculos
+                .Include((x) => x.Trens)
+                .ToListAsync();
         }
 
         public async Task<VehicleModels> Adicionar(VehicleModels vehicle)
         {
+            List<TrainModels> trainModelsList = new List<TrainModels>();
+            if (vehicle.Trens != null && vehicle.Trens.Count > 0)
+            {
+                foreach (TrainModels train in vehicle.Trens)
+                {
+
+                    TrainModels trainModels = await _dbContext.Trens.FirstOrDefaultAsync((x) => x.Id == train.Id);
+                    if (trainModels != null)
+                        trainModelsList.Add(trainModels);
+                }
+
+            }
+            if (trainModelsList.Count > 0)
+                vehicle.Trens = trainModelsList;
+
             await _dbContext.Veiculos.AddAsync(vehicle);
             await _dbContext.SaveChangesAsync();
 
@@ -39,6 +58,19 @@ namespace TrainServiceAPI.Repositorio
             {
                 throw new Exception($"Veículo referente ao ID: {id} não foi encontrado");
             }
+
+            List<TrainModels> trainModelsList = new List<TrainModels>();
+            if (vehicle.Trens != null && vehicle.Trens.Count > 0)
+            {
+                foreach (TrainModels train in vehicle.Trens)
+                {
+                    TrainModels trainModels = await _dbContext.Trens.FirstOrDefaultAsync((x) => x.Id == train.Id);
+                    if (trainModels != null)
+                        trainModelsList.Add(trainModels);
+                }
+            }
+            if (trainModelsList.Count > 0)
+                veiculoPorID.Trens = trainModelsList;
 
             veiculoPorID.TipoDeVeiculo = vehicle.TipoDeVeiculo;
             veiculoPorID.CodVeiculo = vehicle.CodVeiculo;

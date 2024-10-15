@@ -27,6 +27,21 @@ namespace TrainServiceAPI.Repositorio
 
         public async Task<TrainModels> Adicionar(TrainModels train)
         {
+            List<VehicleModels> vehicleModelsList = new List<VehicleModels>();
+            if (train.Veiculos != null && train.Veiculos.Count > 0)
+            {
+                foreach (VehicleModels vehicle in train.Veiculos)
+                {
+
+                    VehicleModels vehicleModels = await _dbContext.Veiculos.FirstOrDefaultAsync((x) => x.Id == vehicle.Id);
+                    if (vehicleModels != null)
+                        vehicleModelsList.Add(vehicleModels);
+                }
+
+            }
+            if (vehicleModelsList.Count > 0)
+                train.Veiculos = vehicleModelsList;
+
             await _dbContext.Trens.AddAsync(train);
             await _dbContext.SaveChangesAsync();
 
@@ -42,6 +57,21 @@ namespace TrainServiceAPI.Repositorio
             {
                 throw new Exception($"Trem referente ao ID: {id} não foi encontrado");
             }
+
+            List<VehicleModels> vehicleModelsList = new List<VehicleModels>();
+            if (train.Veiculos != null && train.Veiculos.Count > 0)
+            {
+                foreach (VehicleModels vehicle in train.Veiculos)
+                {
+
+                    VehicleModels vehicleModels = await _dbContext.Veiculos.FirstOrDefaultAsync((x) => x.Id == vehicle.Id);
+                    if (vehicleModels != null)
+                        vehicleModelsList.Add(vehicleModels);
+                }
+
+            }
+            if (vehicleModelsList.Count > 0)
+                tremPorID.Veiculos = vehicleModelsList;
 
             tremPorID.LocalDeOrigem = train.LocalDeOrigem;
             tremPorID.LocalDeDestino = train.LocalDeDestino;

@@ -18,15 +18,15 @@ namespace TrainServiceAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<VehicleModels>>> ListarTodos()
         {
-            List<VehicleModels> vehicles = await _vehicleRepositorio.BuscarTodosOsVeiculos();
-            return Ok(vehicles);
+            List<VehicleModels> vehicle = await _vehicleRepositorio.BuscarTodosOsVeiculos();
+            return Ok(vehicle);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<VehicleModels>> BuscarPorId(int id)
         {
-            VehicleModels vehicles = await _vehicleRepositorio.BuscarPorID(id);
-            return Ok(vehicles);
+            VehicleModels vehicle = await _vehicleRepositorio.BuscarPorID(id);
+            return Ok(vehicle);
         }
 
 

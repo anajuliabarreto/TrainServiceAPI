@@ -31,7 +31,7 @@ namespace TrainServiceAPI.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<TrainModels>> Cadastrar([FromBody] TrainModels trainModels)
+        public async Task<ActionResult> Cadastrar([FromBody] TrainModels trainModels)
         {
             TrainModels trens = await _trainRepositorio.Adicionar(trainModels);
             return Ok(trens);
