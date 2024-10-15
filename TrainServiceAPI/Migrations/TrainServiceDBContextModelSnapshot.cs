@@ -34,7 +34,7 @@ namespace TrainServiceAPI.Migrations
 
                     b.HasIndex("VeiculosId");
 
-                    b.ToTable("TrainModelsVehicleModels");
+                    b.ToTable("TrainModelsVehicleModels", (string)null);
                 });
 
             modelBuilder.Entity("TrainServiceAPI.Models.TrainModels", b =>
@@ -65,7 +65,7 @@ namespace TrainServiceAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trens");
+                    b.ToTable("Trens", (string)null);
                 });
 
             modelBuilder.Entity("TrainServiceAPI.Models.VehicleModels", b =>
@@ -85,7 +85,7 @@ namespace TrainServiceAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Veiculos");
+                    b.ToTable("Veiculos", (string)null);
                 });
 
             modelBuilder.Entity("TrainModelsVehicleModels", b =>
