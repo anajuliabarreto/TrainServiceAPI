@@ -1,5 +1,4 @@
 ﻿using TrainServiceAPI.DTO.VehicleDTO;
-using TrainServiceAPI.Models;
 
 namespace TrainServiceAPI.Repositorio.Interface
 {
@@ -8,8 +7,8 @@ namespace TrainServiceAPI.Repositorio.Interface
         Task<VehicleResponseDTO> BuscarPorID(int id);
         Task<VehicleResponseDTO> BuscarPeloCodigo(int codVeiculo);
         Task<List<VehicleResponseDTO>> BuscarTodosOsVeiculos();        
-        Task<VehicleResponseDTO> Adicionar(VehicleResponseDTO vehicleResponseDTO);
-        Task<VehicleResponseDTO> Atualizar(VehicleResponseDTO vehicleResponseDTO, int id);
+        Task<VehicleResponseDTO> Adicionar(VehicleRequestDTO vehicleRequestDTO);
+        Task<VehicleResponseDTO> Atualizar(VehicleRequestDTO vehicleRequestDTO, int id);
         Task<bool> Apagar(int id);
     }
 }
