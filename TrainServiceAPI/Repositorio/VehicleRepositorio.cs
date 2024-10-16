@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TrainServiceAPI.Data;
+using TrainServiceAPI.DTO.TrainDTO;
+using TrainServiceAPI.DTO.VehicleDTO;
 using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
 
@@ -13,25 +15,30 @@ namespace TrainServiceAPI.Repositorio
             _dbContext = trainServiceDBContext;
         }
 
-        public async Task<VehicleModels> BuscarPorID(int id)
+        public async Task<VehicleResponseDTO> BuscarPorID(int id)
         {
-            return await _dbContext.Veiculos
+            VehicleModels vehicleModels = await _dbContext.Veiculos
                 .Include((x) => x.Trens)
                 .FirstOrDefaultAsync(x => x.Id == id);
+            if (vehicleModels == null) throw new Exception($"Veículo referente ao ID: {id} não foi encontrado");
+            return new VehicleResponseDTO(vehicleModels);
         }
 
-        public async Task<VehicleModels> BuscarPeloCodigo(int codVeiculo)
+        public async Task<VehicleResponseDTO> BuscarPeloCodigo(int codVeiculo)
         {
-            return await _dbContext.Veiculos
+            VehicleModels vehicleModels = await _dbContext.Veiculos
                 .Include((x) => x.Trens)
                 .FirstOrDefaultAsync(x => x.CodVeiculo == codVeiculo);
+            if (vehicleModels == null) throw new Exception($"Veículo referente ao código: {codVeiculo} não foi encontrado");
+            return new VehicleResponseDTO(vehicleModels);
         }
         
-        public async Task<List<VehicleModels>> BuscarTodosOsVeiculos()
+        public async Task<List<VehicleResponseDTO>> BuscarTodosOsVeiculos()
         {
-            return await _dbContext.Veiculos
+            List<VehicleModels> vehicleModelsList = await _dbContext.Veiculos
                 .Include((x) => x.Trens)
                 .ToListAsync();
+            return vehicleModelsList.Select((vehicleModels) => new VehicleResponseDTO(vehicleModels)).ToList();
         }
 
         public async Task<VehicleModels> Adicionar(VehicleModels vehicle)

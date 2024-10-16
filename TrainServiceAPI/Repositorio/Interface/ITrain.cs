@@ -9,8 +9,8 @@ namespace TrainServiceAPI.Repositorio.Interface
     {
         Task<List<TrainResponseDTO>> BuscarTodosOsTrens();
         Task<TrainResponseDTO> BuscarPorID(int id);
-        Task<TrainResponseDTO> Adicionar(TrainResponseDTO trainResponseDTO);
-        Task<TrainResponseDTO> Atualizar(TrainResponseDTO trainResponseDTO, int id);
+        Task<TrainResponseDTO> Adicionar(TrainRequestDTO trainRequestDTO);
+        Task<TrainResponseDTO> Atualizar(TrainRequestDTO trainRequestDTO, int id);
         Task<bool> Apagar(int id);
     }
 }

@@ -12,8 +12,8 @@ namespace TrainServiceAPI.DTO.VehicleDTO
             Trens = vehicleModels.Trens?.Select((trainModels) => new TrainResponseExcludingVehicles(trainModels)).ToList();
         }
     public int Id { get; set; }
-    public required string TipoDeVeiculo { get; set; }
-    public required int CodVeiculo { get; set; }
+    public string TipoDeVeiculo { get; set; }
+    public int CodVeiculo { get; set; }
     public ICollection<TrainResponseExcludingVehicles>? Trens { get; set; }
     }
 }

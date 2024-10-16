@@ -1,6 +1,7 @@
 ﻿//Vai implementar a interface, oferencendo a lógica do que foi definido na interface 
 using Microsoft.EntityFrameworkCore;
 using TrainServiceAPI.Data;
+using TrainServiceAPI.DTO.TrainDTO;
 using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
 
@@ -14,39 +15,53 @@ namespace TrainServiceAPI.Repositorio
             _dbContext = trainServiceDBContext;
         }
 
-        public async Task<TrainModels> BuscarPorID(int id)
+        public async Task<TrainResponseDTO> BuscarPorID(int id)
         {
-            return await _dbContext.Trens
+            TrainModels trainModels = await _dbContext.Trens
                 .Include((x) => x.Veiculos)
                 .FirstOrDefaultAsync(x => x.Id == id);
+            if (trainModels == null) throw new Exception($"Veículo referente ao ID: {id} não foi encontrado");
+            return new TrainResponseDTO(trainModels);
         }
 
-        public async Task<List<TrainModels>> BuscarTodosOsTrens()
+        public async Task<List<TrainResponseDTO>> BuscarTodosOsTrens()
         {
-            return await _dbContext.Trens.Include((x) => x.Veiculos).ToListAsync();
+            List<TrainModels> trainModelsList = await _dbContext.Trens
+                .Include((x) => x.Veiculos)
+                .ToListAsync();
+            return trainModelsList.Select((trainModels) => new TrainResponseDTO(trainModels)).ToList();
         }
 
-        public async Task<TrainModels> Adicionar(TrainModels train)
+        public async Task<TrainResponseDTO> Adicionar(TrainRequestDTO trainRequestDTO)
         {
             List<VehicleModels> vehicleModelsList = new List<VehicleModels>();
-            if (train.Veiculos != null && train.Veiculos.Count > 0)
+
+            if (trainRequestDTO.Veiculos != null && trainRequestDTO.Veiculos.Count > 0)
             {
                 foreach (VehicleModels vehicle in train.Veiculos)
                 {
-
                     VehicleModels vehicleModels = await _dbContext.Veiculos.FirstOrDefaultAsync((x) => x.Id == vehicle.Id);
                     if (vehicleModels != null)
                         vehicleModelsList.Add(vehicleModels);
                 }
-
             }
-            if (vehicleModelsList.Count > 0)
-                train.Veiculos = vehicleModelsList;
 
-            await _dbContext.Trens.AddAsync(train);
+            TrainModels trainModels = new TrainModels
+            {
+                LocalDeOrigem = trainRequestDTO.LocalDeOrigem,
+                LocalDeDestino = trainRequestDTO.LocalDeDestino,
+                NumeroTrem = trainRequestDTO.NumeroTrem,
+                Ferrovia = trainRequestDTO.Ferrovia,
+                Veiculos = vehicleModelsList
+                //DataHoraPartida = trainRequest.DataHoraPartida
+            };
+                //if (vehicleModelsList.Count > 0)
+                //train.Veiculos = vehicleModelsList;
+
+            await _dbContext.Trens.AddAsync(trainModels);
             await _dbContext.SaveChangesAsync();
 
-            return train;
+            return new TrainResponseDTO(trainModels);
         }
 
 
@@ -84,7 +99,6 @@ namespace TrainServiceAPI.Repositorio
 
             return tremPorID;
         }
-
 
         public async Task<bool> Apagar(int id)
         {
