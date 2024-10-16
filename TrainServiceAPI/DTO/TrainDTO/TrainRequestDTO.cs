@@ -10,6 +10,5 @@ namespace TrainServiceAPI.DTO.TrainDTO
         public required string Ferrovia { get; set; }
         public DateTime DataHoraPartida { get; set; }
         public List<string>? CodVeiculo { get; set; }
-        public List<VehicleResponseExcludingTrains>? Veiculos { get; set; }
     }
 }
