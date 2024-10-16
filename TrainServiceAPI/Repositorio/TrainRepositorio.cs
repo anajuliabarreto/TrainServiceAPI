@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿//Vai implementar a interface, oferencendo a lógica do que foi definido na interface 
+using Microsoft.EntityFrameworkCore;
 using TrainServiceAPI.Data;
 using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;

@@ -1,15 +1,16 @@
-﻿// Vai conter os contratos de trem 
+﻿// Define os métodos; Vai conter os contratos de trem 
 
+using TrainServiceAPI.DTO.TrainDTO;
 using TrainServiceAPI.Models;
 
 namespace TrainServiceAPI.Repositorio.Interface
 {
     public interface ITrain
     {
-        Task<List<TrainModels>> BuscarTodosOsTrens();
-        Task<TrainModels> BuscarPorID(int id);
-        Task<TrainModels> Adicionar(TrainModels train);
-        Task<TrainModels> Atualizar(TrainModels train, int id);
+        Task<List<TrainResponseDTO>> BuscarTodosOsTrens();
+        Task<TrainResponseDTO> BuscarPorID(int id);
+        Task<TrainResponseDTO> Adicionar(TrainResponseDTO trainResponseDTO);
+        Task<TrainResponseDTO> Atualizar(TrainResponseDTO trainResponseDTO, int id);
         Task<bool> Apagar(int id);
     }
 }

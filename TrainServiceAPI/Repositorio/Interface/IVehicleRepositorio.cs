@@ -1,14 +1,15 @@
-﻿using TrainServiceAPI.Models;
+﻿using TrainServiceAPI.DTO.VehicleDTO;
+using TrainServiceAPI.Models;
 
 namespace TrainServiceAPI.Repositorio.Interface
 {
     public interface IVehicleRepositorio
     {
-        Task<VehicleModels> BuscarPorID(int id);
-        Task<VehicleModels> BuscarPeloCodigo(int codVeiculo);
-        Task<List<VehicleModels>> BuscarTodosOsVeiculos();        
-        Task<VehicleModels> Adicionar(VehicleModels train);
-        Task<VehicleModels> Atualizar(VehicleModels train, int id);
+        Task<VehicleResponseDTO> BuscarPorID(int id);
+        Task<VehicleResponseDTO> BuscarPeloCodigo(int codVeiculo);
+        Task<List<VehicleResponseDTO>> BuscarTodosOsVeiculos();        
+        Task<VehicleResponseDTO> Adicionar(VehicleResponseDTO vehicleResponseDTO);
+        Task<VehicleResponseDTO> Atualizar(VehicleResponseDTO vehicleResponseDTO, int id);
         Task<bool> Apagar(int id);
     }
 }
