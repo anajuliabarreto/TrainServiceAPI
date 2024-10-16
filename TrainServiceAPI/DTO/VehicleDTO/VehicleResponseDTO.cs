@@ -3,9 +3,9 @@ using TrainServiceAPI.Models;
 
 namespace TrainServiceAPI.DTO.VehicleDTO
 {
-    public class VechileResponseDTO
+    public class VehicleResponseDTO
     {
-        public VechileResponseDTO(VehicleModels vehicleModels) {
+        public VehicleResponseDTO(VehicleModels vehicleModels) {
             Id = vehicleModels.Id;
             TipoDeVeiculo = vehicleModels.TipoDeVeiculo;
             CodVeiculo = vehicleModels.CodVeiculo;
