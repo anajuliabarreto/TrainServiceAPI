@@ -10,6 +10,7 @@ namespace TrainServiceAPI.Repositorio
     public class TrainRepositorio : ITrain
     {
         private readonly TrainServiceDBContext _dbContext;
+
         public TrainRepositorio(TrainServiceDBContext trainServiceDBContext)
         {
             _dbContext = trainServiceDBContext;
@@ -36,11 +37,11 @@ namespace TrainServiceAPI.Repositorio
         {
             List<VehicleModels> vehicleModelsList = new List<VehicleModels>();
 
-            if (trainRequestDTO.Veiculos != null && trainRequestDTO.Veiculos.Count > 0)
+            if (trainRequestDTO.CodVeiculos != null && trainRequestDTO.CodVeiculos.Count > 0)
             {
-                foreach (VehicleModels vehicle in train.Veiculos)
+                foreach (int codVeiculo in trainRequestDTO.CodVeiculos)
                 {
-                    VehicleModels vehicleModels = await _dbContext.Veiculos.FirstOrDefaultAsync((x) => x.Id == vehicle.Id);
+                    VehicleModels vehicleModels = await _dbContext.Veiculos.FirstOrDefaultAsync((x) => x.CodVeiculo == codVeiculo);
                     if (vehicleModels != null)
                         vehicleModelsList.Add(vehicleModels);
                 }
@@ -55,8 +56,6 @@ namespace TrainServiceAPI.Repositorio
                 Veiculos = vehicleModelsList,
                 DataHoraPartida = trainRequestDTO.DataHoraPartida
             };
-                //if (vehicleModelsList.Count > 0)
-                //train.Veiculos = vehicleModelsList;
 
             await _dbContext.Trens.AddAsync(trainModels);
             await _dbContext.SaveChangesAsync();
@@ -65,51 +64,54 @@ namespace TrainServiceAPI.Repositorio
         }
 
 
-        public async Task<TrainModels> Atualizar(TrainModels train, int id)
+        public async Task<TrainResponseDTO> Atualizar(TrainRequestDTO trainRequestDTO, int id)
         {
-            TrainModels tremPorID = await BuscarPorID(id);
+            TrainModels trainModels = await _dbContext.Trens
+                .Include((x) => x.Veiculos)
+                .FirstOrDefaultAsync((x) => x.Id == id);
 
-            if (tremPorID == null)
+            if (trainModels == null)
             {
                 throw new Exception($"Trem referente ao ID: {id} não foi encontrado");
             }
 
             List<VehicleModels> vehicleModelsList = new List<VehicleModels>();
-            if (train.Veiculos != null && train.Veiculos.Count > 0)
-            {
-                foreach (VehicleModels vehicle in train.Veiculos)
-                {
 
-                    VehicleModels vehicleModels = await _dbContext.Veiculos.FirstOrDefaultAsync((x) => x.Id == vehicle.Id);
+            if (trainRequestDTO.CodVeiculos != null && trainRequestDTO.CodVeiculos.Count > 0)
+            {
+                foreach (int codVeiculo in trainRequestDTO.CodVeiculos)
+                {
+                    VehicleModels vehicleModels = await _dbContext.Veiculos.FirstOrDefaultAsync((x) => x.CodVeiculo == codVeiculo);
                     if (vehicleModels != null)
                         vehicleModelsList.Add(vehicleModels);
                 }
-
             }
-            if (vehicleModelsList.Count > 0)
-                tremPorID.Veiculos = vehicleModelsList;
 
-            tremPorID.LocalDeOrigem = train.LocalDeOrigem;
-            tremPorID.LocalDeDestino = train.LocalDeDestino;
-            tremPorID.Ferrovia = train.Ferrovia;
-            tremPorID.DataHoraPartida = train.DataHoraPartida;
+            trainModels.LocalDeOrigem = trainRequestDTO.LocalDeOrigem;
+            trainModels.LocalDeDestino = trainRequestDTO.LocalDeDestino;
+            trainModels.NumeroTrem = trainRequestDTO.NumeroTrem;
+            trainModels.Ferrovia = trainRequestDTO.Ferrovia;
+            trainModels.DataHoraPartida = trainRequestDTO.DataHoraPartida;
+            trainModels.Veiculos = vehicleModelsList;
 
-            _dbContext.Trens.Update(tremPorID);
+            _dbContext.Trens.Update(trainModels);
             await _dbContext.SaveChangesAsync();
 
-            return tremPorID;
+            return new TrainResponseDTO(trainModels);
         }
 
         public async Task<bool> Apagar(int id)
         {
-            TrainModels tremPorID = await BuscarPorID(id);
-
-            if (tremPorID == null)
+            TrainModels trainModels = await _dbContext.Trens
+                .Include((x) => x.Veiculos)
+                .FirstOrDefaultAsync((x) => x.Id == id);
+          
+            if (trainModels == null)
             {
                 throw new Exception($"Trem referente ao ID: {id} não foi encontrado");
             }
 
-            _dbContext.Trens.Remove(tremPorID);
+            _dbContext.Trens.Remove(trainModels);
             await _dbContext.SaveChangesAsync();
 
             return true;
