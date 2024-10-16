@@ -8,6 +8,7 @@ namespace TrainServiceAPI.DTO.TrainDTO
         public required int NumeroTrem { get; set; }
         public required string LocalDeDestino { get; set; }
         public required string Ferrovia { get; set; }
+        public DateTime DataHoraPartida { get; set; }
         public List<string>? CodVeiculo { get; set; }
         public List<VehicleResponseExcludingTrains>? Veiculos { get; set; }
     }

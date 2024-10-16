@@ -52,8 +52,8 @@ namespace TrainServiceAPI.Repositorio
                 LocalDeDestino = trainRequestDTO.LocalDeDestino,
                 NumeroTrem = trainRequestDTO.NumeroTrem,
                 Ferrovia = trainRequestDTO.Ferrovia,
-                Veiculos = vehicleModelsList
-                //DataHoraPartida = trainRequest.DataHoraPartida
+                Veiculos = vehicleModelsList,
+                DataHoraPartida = trainRequestDTO.DataHoraPartida
             };
                 //if (vehicleModelsList.Count > 0)
                 //train.Veiculos = vehicleModelsList;
