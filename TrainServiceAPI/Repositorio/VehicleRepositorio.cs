@@ -20,6 +20,13 @@ namespace TrainServiceAPI.Repositorio
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<VehicleModels> BuscarPeloCodigo(int codVeiculo)
+        {
+            return await _dbContext.Veiculos
+                .Include((x) => x.Trens)
+                .FirstOrDefaultAsync(x => x.CodVeiculo == codVeiculo);
+        }
+        
         public async Task<List<VehicleModels>> BuscarTodosOsVeiculos()
         {
             return await _dbContext.Veiculos
