@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TrainServiceAPI.DTO.VehicleDTO;
 using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
 
@@ -16,37 +17,36 @@ namespace TrainServiceAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<VehicleModels>>> ListarTodos()
+        public async Task<ActionResult<List<VehicleResponseDTO>>> ListarTodos()
         {
-            List<VehicleModels> vehicle = await _vehicleRepositorio.BuscarTodosOsVeiculos();
-            return Ok(vehicle);
+            List<VehicleResponseDTO> vehicleResponseList = await _vehicleRepositorio.BuscarTodosOsVeiculos();
+            return Ok(vehicleResponseList);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleModels>> BuscarPorId(int id)
+        public async Task<ActionResult<VehicleResponseDTO>> BuscarPorId(int id)
         {
-            VehicleModels vehicle = await _vehicleRepositorio.BuscarPorID(id);
-            return Ok(vehicle);
+            VehicleResponseDTO vehicleResponseDTO = await _vehicleRepositorio.BuscarPorID(id);
+            return Ok(vehicleResponseDTO);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult<VehicleModels>> Cadastrar([FromBody] VehicleModels vehicleModels)
+        public async Task<ActionResult<VehicleResponseDTO>> Cadastrar([FromBody] VehicleRequestDTO vehicleRequestDTO)
         {
-            VehicleModels vehicle = await _vehicleRepositorio.Adicionar(vehicleModels);
-            return Ok(vehicle);
+            VehicleResponseDTO vehicleResponseDTO = await _vehicleRepositorio.Adicionar(vehicleRequestDTO);
+            return Ok(vehicleResponseDTO);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<VehicleModels>> Atualizar([FromBody] VehicleModels vehicleModels, int id)
+        public async Task<ActionResult<VehicleModels>> Atualizar([FromBody] VehicleRequestDTO vehicleRequestDTO, int id)
         {
-            vehicleModels.Id = id;
-            VehicleModels vehicle = await _vehicleRepositorio.Atualizar(vehicleModels, id);
-            return Ok(vehicle);
+            VehicleResponseDTO vehicleResponseDTO = await _vehicleRepositorio.Atualizar(vehicleRequestDTO, id);
+            return Ok(vehicleResponseDTO);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<VehicleModels>> Deletar(int id)
+        public async Task<ActionResult> Deletar(int id)
         {
             bool apagado = await _vehicleRepositorio.Apagar(id);
             return Ok(apagado);

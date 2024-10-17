@@ -42,25 +42,27 @@ namespace TrainServiceAPI.Repositorio
 
         public async Task<VehicleResponseDTO> Adicionar(VehicleRequestDTO vehicleRequestDTO)
         {
-            List<TrainModels> trainModelsList = new List<TrainModels>();
+            VehicleModels vehicleModels = new VehicleModels
+            {
+                CodVeiculo = vehicleRequestDTO.CodVeiculo,
+                TipoDeVeiculo = vehicleRequestDTO.TipoDeVeiculo
+            };            
 
             if (vehicleRequestDTO.TrensId != null && vehicleRequestDTO.TrensId.Count > 0)
             {
+                List<TrainModels> trainModelsList = new List<TrainModels>();
+
                 foreach (int tremId in vehicleRequestDTO.TrensId)
                 {
                     TrainModels trainModels = await _dbContext.Trens.FirstOrDefaultAsync((x) => x.Id == tremId);
                     if (trainModels != null)
                         trainModelsList.Add(trainModels);
                 }
+
+                if (trainModelsList.Count > 0)
+                    vehicleModels.Trens = trainModelsList;
             }
-
-            VehicleModels vehicleModels = new VehicleModels
-            {
-                CodVeiculo = vehicleRequestDTO.CodVeiculo,
-                TipoDeVeiculo = vehicleRequestDTO.TipoDeVeiculo,
-                Trens = trainModelsList                
-            };
-
+            
             await _dbContext.Veiculos.AddAsync(vehicleModels);
             await _dbContext.SaveChangesAsync();
 
@@ -73,29 +75,31 @@ namespace TrainServiceAPI.Repositorio
             VehicleModels vehicleModels = await _dbContext.Veiculos
                 .Include((x) => x.Trens)
                 .FirstOrDefaultAsync((x) => x.Id == id);
-
+            
             if (vehicleModels == null)
             {
                 throw new Exception($"Veículo referente ao ID: {id} não foi encontrado");
             }
 
-            List<TrainModels> trainModelsList = new List<TrainModels>();
+            vehicleModels.TipoDeVeiculo = vehicleRequestDTO.TipoDeVeiculo;
+            vehicleModels.CodVeiculo = vehicleRequestDTO.CodVeiculo;
+            //veiculoPorID.Status = vehicle.Status;            
 
             if (vehicleRequestDTO.TrensId != null && vehicleRequestDTO.TrensId.Count > 0)
             {
+                List<TrainModels> trainModelsList = new List<TrainModels>();
+
                 foreach (int tremId in vehicleRequestDTO.TrensId)
                 {
                     TrainModels trainModels = await _dbContext.Trens.FirstOrDefaultAsync((x) => x.Id == tremId);
                     if (trainModels != null)
                         trainModelsList.Add(trainModels);
                 }
+
+                if (trainModelsList.Count > 0)
+                    vehicleModels.Trens = trainModelsList;
             }
-
-            vehicleModels.TipoDeVeiculo = vehicleRequestDTO.TipoDeVeiculo;
-            vehicleModels.CodVeiculo = vehicleRequestDTO.CodVeiculo;
-            vehicleModels.Trens = trainModelsList;
-            //veiculoPorID.Status = vehicle.Status;
-
+            
             _dbContext.Veiculos.Update(vehicleModels);
             await _dbContext.SaveChangesAsync();
 

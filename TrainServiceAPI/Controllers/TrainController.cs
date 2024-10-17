@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TrainServiceAPI.DTO.TrainDTO;
-using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
 
 namespace TrainServiceAPI.Controllers
@@ -30,7 +29,6 @@ namespace TrainServiceAPI.Controllers
             return Ok(trainResponseDTO);
         }
 
-
         [HttpPost]
         public async Task<ActionResult> Cadastrar([FromBody] TrainRequestDTO trainRequestDTO)
         {
@@ -41,13 +39,12 @@ namespace TrainServiceAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<TrainResponseDTO>> Atualizar([FromBody] TrainRequestDTO trainRequestDTO, int id)
         {
-            //trainModels.Id = id;
             TrainResponseDTO trainResponseDTO = await _trainRepositorio.Atualizar(trainRequestDTO, id);
             return Ok(trainResponseDTO);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TrainModels>> Deletar([FromRoute] int id)
+        public async Task<ActionResult> Deletar([FromRoute] int id)
         {
             bool apagado = await _trainRepositorio.Apagar(id);
             return Ok(apagado);
