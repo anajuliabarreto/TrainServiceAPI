@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TrainServiceAPI.DTO.TrainDTO;
 using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
 
@@ -16,37 +17,37 @@ namespace TrainServiceAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TrainModels>>> BuscarTrem()
+        public async Task<ActionResult<List<TrainResponseDTO>>> BuscarTrem()
         {
-            List<TrainModels> trens = await _trainRepositorio.BuscarTodosOsTrens();
-            return Ok(trens);
+            List<TrainResponseDTO> trainResponseList = await _trainRepositorio.BuscarTodosOsTrens();
+            return Ok(trainResponseList);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TrainModels>> BuscarPorId(int id)
+        public async Task<ActionResult<TrainResponseDTO>> BuscarPorId(int id)
         {
-            TrainModels trens = await _trainRepositorio.BuscarPorID(id);
-            return Ok(trens);
+            TrainResponseDTO trainResponseDTO = await _trainRepositorio.BuscarPorID(id);
+            return Ok(trainResponseDTO);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> Cadastrar([FromBody] TrainModels trainModels)
+        public async Task<ActionResult> Cadastrar([FromBody] TrainRequestDTO trainRequestDTO)
         {
-            TrainModels trens = await _trainRepositorio.Adicionar(trainModels);
-            return Ok(trens);
+            TrainResponseDTO trainResponseDTO = await _trainRepositorio.Adicionar(trainRequestDTO);
+            return Ok(trainResponseDTO);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TrainModels>> Atualizar([FromBody] TrainModels trainModels, int id)
+        public async Task<ActionResult<TrainResponseDTO>> Atualizar([FromBody] TrainRequestDTO trainRequestDTO, int id)
         {
-            trainModels.Id = id;
-            TrainModels trens = await _trainRepositorio.Atualizar(trainModels, id);
-            return Ok(trens);
+            //trainModels.Id = id;
+            TrainResponseDTO trainResponseDTO = await _trainRepositorio.Atualizar(trainRequestDTO, id);
+            return Ok(trainResponseDTO);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TrainModels>> Deletar(int id)
+        public async Task<ActionResult<TrainModels>> Deletar([FromRoute] int id)
         {
             bool apagado = await _trainRepositorio.Apagar(id);
             return Ok(apagado);
