@@ -30,7 +30,7 @@ namespace TrainServiceAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Cadastrar([FromBody] TrainRequestDTO trainRequestDTO)
+        public async Task<ActionResult<TrainResponseDTO>> Cadastrar([FromBody] TrainRequestDTO trainRequestDTO)
         {
             TrainResponseDTO trainResponseDTO = await _trainRepositorio.Adicionar(trainRequestDTO);
             return Ok(trainResponseDTO);

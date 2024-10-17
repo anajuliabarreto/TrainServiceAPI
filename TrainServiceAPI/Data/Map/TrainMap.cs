@@ -12,7 +12,6 @@ namespace TrainServiceAPI.Data.Map
             builder.Property(x => x.NumeroTrem).IsRequired(); 
             builder.Property(x => x.LocalDeDestino).IsRequired();
             builder.Property(x => x.LocalDeOrigem).IsRequired();
-
         }
     }
 }

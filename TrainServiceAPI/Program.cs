@@ -25,6 +25,7 @@ namespace TrainServiceAPI
 
             builder.Services.AddScoped<ITrain, TrainRepositorio>();
             builder.Services.AddScoped<IVehicleRepositorio, VehicleRepositorio>();
+            builder.Services.AddScoped<IUserRepositorio, UserRepositorio>();
 
             var app = builder.Build();
 

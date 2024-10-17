@@ -1,7 +1,6 @@
 ﻿// Define os métodos; Vai conter os contratos de trem 
 
 using TrainServiceAPI.DTO.TrainDTO;
-using TrainServiceAPI.Models;
 
 namespace TrainServiceAPI.Repositorio.Interface
 {

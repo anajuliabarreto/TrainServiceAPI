@@ -21,7 +21,7 @@ namespace TrainServiceAPI.Repositorio
             TrainModels trainModels = await _dbContext.Trens
                 .Include((x) => x.Veiculos)
                 .FirstOrDefaultAsync(x => x.Id == id);
-            if (trainModels == null) throw new Exception($"Veículo referente ao ID: {id} não foi encontrado");
+            if (trainModels == null) throw new Exception($"Trem referente ao ID: {id} não foi encontrado");
             return new TrainResponseDTO(trainModels);
         }
 

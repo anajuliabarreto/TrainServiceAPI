@@ -13,13 +13,14 @@ namespace TrainServiceAPI.Data
 
         public DbSet<TrainModels> Trens { get; set; }
         public DbSet<VehicleModels> Veiculos { get; set; }
+        public DbSet<UserModels> Usuarios{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new TrainMap());
             modelBuilder.ApplyConfiguration(new VehicleMap());
+            modelBuilder.ApplyConfiguration(new  UserMap());
         }
-
     }
 }
