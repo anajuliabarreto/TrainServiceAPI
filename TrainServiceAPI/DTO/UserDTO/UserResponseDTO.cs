@@ -1,5 +1,4 @@
-﻿using TrainServiceAPI.DTO.VehicleDTO;
-using TrainServiceAPI.Models;
+﻿using TrainServiceAPI.Models;
 
 namespace TrainServiceAPI.DTO.UserDTO
 {

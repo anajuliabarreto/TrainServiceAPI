@@ -6,6 +6,7 @@ namespace TrainServiceAPI.Repositorio.Interface
     {        
         Task<UserResponseDTO> BuscarPorID(int id);
         Task<List<UserResponseDTO>> BuscarTodosUsuarios();
+        Task<UserAccessResponseDTO> BuscarPeloNome(string nomeUsuario);
         Task<UserResponseDTO> Adicionar(UserRequestDTO userRequestDTO);
         Task<UserResponseDTO> Atualizar(UserRequestDTO userRequestDTO, int id);
         Task<bool> Apagar(int id);

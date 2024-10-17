@@ -8,8 +8,8 @@ namespace TrainServiceAPI.Repositorio.Interface
     {
         Task<List<TrainResponseDTO>> BuscarTodosOsTrens();
         Task<TrainResponseDTO> BuscarPorID(int id);
-        Task<TrainResponseDTO> Adicionar(TrainRequestDTO trainRequestDTO);
-        Task<TrainResponseDTO> Atualizar(TrainRequestDTO trainRequestDTO, int id);
+        Task<TrainResponseDTO> Adicionar(TrainRequestDTO trainRequestDTO, string nomeUsuario);
+        Task<TrainResponseDTO> Atualizar(TrainRequestDTO trainRequestDTO, int id, string nomeUsuario);
         Task<bool> Apagar(int id);
     }
 }

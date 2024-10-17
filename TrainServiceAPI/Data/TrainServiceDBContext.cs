@@ -6,15 +6,13 @@ namespace TrainServiceAPI.Data
 {
     public class TrainServiceDBContext : DbContext
     {
-        public TrainServiceDBContext(DbContextOptions<TrainServiceDBContext> options)
-            : base(options)
+        public TrainServiceDBContext(DbContextOptions<TrainServiceDBContext> options) : base(options)
         {
         }
 
         public DbSet<TrainModels> Trens { get; set; }
         public DbSet<VehicleModels> Veiculos { get; set; }
         public DbSet<UserModels> Usuarios{ get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

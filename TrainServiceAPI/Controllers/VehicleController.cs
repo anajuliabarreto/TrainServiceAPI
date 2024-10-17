@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TrainServiceAPI.DTO.VehicleDTO;
 using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
 
 namespace TrainServiceAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VehicleController : ControllerBase

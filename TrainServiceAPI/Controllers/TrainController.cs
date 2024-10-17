@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TrainServiceAPI.DTO.TrainDTO;
 using TrainServiceAPI.Repositorio.Interface;
 
 namespace TrainServiceAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TrainController : ControllerBase
@@ -23,7 +25,7 @@ namespace TrainServiceAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TrainResponseDTO>> BuscarPorId(int id)
+        public async Task<ActionResult<TrainResponseDTO>> BuscarPorId([FromRoute] int id)
         {
             TrainResponseDTO trainResponseDTO = await _trainRepositorio.BuscarPorID(id);
             return Ok(trainResponseDTO);

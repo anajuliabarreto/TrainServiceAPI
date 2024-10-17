@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TrainServiceAPI.DTO.TrainDTO;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TrainServiceAPI.DTO.UserDTO;
-using TrainServiceAPI.Repositorio;
+using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
+using TrainServiceAPI.Services;
 
 namespace TrainServiceAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -25,12 +27,29 @@ namespace TrainServiceAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserResponseDTO>> BuscarPorId(int id)
+        public async Task<ActionResult<UserResponseDTO>> BuscarPorId([FromRoute]int id)
         {
             UserResponseDTO userResponseDTO = await _userRepositorio.BuscarPorID(id);
             return Ok(userResponseDTO);
         }
 
+        [AllowAnonymous]
+        [HttpGet("token")]
+        public async Task<ActionResult<object>> GetToken([FromQuery] string nomeUsuario, [FromQuery] string senhaUsuario)
+        {            
+            UserAccessResponseDTO userResponseDTO = await _userRepositorio.BuscarPeloNome(nomeUsuario);
+            if (userResponseDTO.SenhaUsuario != senhaUsuario)
+                throw new Exception("Nome de usuário ou senha incorretos");
+            UserModels userModels = new UserModels
+            {
+                Id = userResponseDTO.Id,
+                NomeUsuario = userResponseDTO.NomeUsuario,
+                SenhaUsuario = userResponseDTO.SenhaUsuario
+            };
+            return Ok(TokenService.GenerateToken(userModels));            
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<UserResponseDTO>> Cadastrar([FromBody] UserRequestDTO userRequestDTO)
         {
@@ -38,6 +57,7 @@ namespace TrainServiceAPI.Controllers
             return Ok(userResponseDTO);
         }
 
+        
         [HttpPut("{id}")]
         public async Task<ActionResult<UserResponseDTO>> Atualizar([FromBody] UserRequestDTO userRequestDTO, int id)
         {
