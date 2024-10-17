@@ -30,6 +30,12 @@ namespace TrainServiceAPI.Controllers
             return Ok(vehicleResponseDTO);
         }
 
+        [HttpGet("codVeiculo/{codVeiculo}")]
+        public async Task<ActionResult<VehicleResponseDTO>> BuscarPeloCodigo([FromRoute] int codVeiculo)
+        {
+            VehicleResponseDTO vehicleResponseDTO = await _vehicleRepositorio.BuscarPeloCodigo(codVeiculo);
+            return Ok(vehicleResponseDTO);
+        }
 
         [HttpPost]
         public async Task<ActionResult<VehicleResponseDTO>> Cadastrar([FromBody] VehicleRequestDTO vehicleRequestDTO)
