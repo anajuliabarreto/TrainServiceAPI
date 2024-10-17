@@ -10,6 +10,7 @@ namespace TrainServiceAPI.DTO.TrainDTO
         public TrainResponseDTO(TrainModels trainModels) 
         {
             Id = trainModels.Id;
+            Ferrovia = trainModels.Ferrovia;
             NumeroTrem = trainModels.NumeroTrem;
             LocalDeOrigem = trainModels.LocalDeOrigem;
             LocalDeDestino = trainModels.LocalDeOrigem;
@@ -17,8 +18,9 @@ namespace TrainServiceAPI.DTO.TrainDTO
             Veiculos = trainModels.Veiculos?.Select((vehicle) => new VehicleResponseExcludingTrains(vehicle)).ToList();
         }
         public DateTime DataHoraPartida { get; set; }
+        public string Ferrovia { get; set; }
         public string LocalDeOrigem { get; set; }
-        public string LocalDeDestino { get; set; }        
+        public string LocalDeDestino { get; set; }
         public int Id { get; set; }
         public int NumeroTrem { get; set; }
         public List<VehicleResponseExcludingTrains>? Veiculos { get; set; }
