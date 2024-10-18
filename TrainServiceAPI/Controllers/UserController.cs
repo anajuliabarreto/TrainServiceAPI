@@ -37,7 +37,7 @@ namespace TrainServiceAPI.Controllers
         [HttpGet("token")]
         public async Task<ActionResult<object>> GetToken([FromQuery] string nomeUsuario, [FromQuery] string senhaUsuario)
         {            
-            UserAccessResponseDTO userResponseDTO = await _userRepositorio.BuscarPeloNome(nomeUsuario);
+            UserResponseDTO userResponseDTO = await _userRepositorio.BuscarPeloNome(nomeUsuario);
 
             if (userResponseDTO == null)
                 throw new Exception($"Usuário não encontrado");
@@ -55,9 +55,9 @@ namespace TrainServiceAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<UserResponseDTO>> Cadastrar([FromBody] UserRequestDTO userRequestDTO)
+        public async Task<ActionResult<UserAccessResponseDTO>> Cadastrar([FromBody] UserRequestDTO userRequestDTO)
         {
-            UserResponseDTO userResponseDTO = await _userRepositorio.Adicionar(userRequestDTO);
+            UserAccessResponseDTO userResponseDTO = await _userRepositorio.Adicionar(userRequestDTO);
             return Ok(userResponseDTO);
         }
 

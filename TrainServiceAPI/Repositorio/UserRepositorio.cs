@@ -27,11 +27,11 @@ namespace TrainServiceAPI.Repositorio
             return userModelsList.Select((userModels) => new UserResponseDTO(userModels)).ToList();
         }
 
-        public async Task<UserAccessResponseDTO> BuscarPeloNome(string nomeUsuario)
+        public async Task<UserResponseDTO> BuscarPeloNome(string nomeUsuario)
         {
             UserModels userModels = await _dbContext.Usuarios.FirstOrDefaultAsync((x) => x.NomeUsuario == nomeUsuario);
             if (userModels == null) throw new Exception($"O usuário: {nomeUsuario} não foi encontrado no banco de dados.");
-            return new UserAccessResponseDTO(userModels, null);
+            return new UserResponseDTO(userModels);
         }
 
         public async Task<UserAccessResponseDTO> Adicionar(UserRequestDTO userRequestDTO)
