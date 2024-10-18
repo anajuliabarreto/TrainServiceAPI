@@ -40,7 +40,7 @@ namespace TrainServiceAPI.Repositorio
             return vehicleModelsList.Select((vehicleModels) => new VehicleResponseDTO(vehicleModels)).ToList();
         }
 
-        public async Task<VehicleResponseDTO> Adicionar(VehicleRequestDTO vehicleRequestDTO, string nomeUsuario)
+        public async Task<VehicleResponseDTO> Adicionar(VehicleRequestDTO vehicleRequestDTO)
         {
             VehicleModels vehicleModels = new VehicleModels
             {
@@ -69,7 +69,7 @@ namespace TrainServiceAPI.Repositorio
             return new VehicleResponseDTO(vehicleModels);
         }
 
-        public async Task<VehicleResponseDTO> Atualizar(VehicleRequestDTO vehicleRequestDTO, int id, string nomeUsuario)
+        public async Task<VehicleResponseDTO> Atualizar(VehicleRequestDTO vehicleRequestDTO, int id)
         {
 
             VehicleModels vehicleModels = await _dbContext.Veiculos
