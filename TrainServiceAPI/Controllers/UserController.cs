@@ -38,6 +38,10 @@ namespace TrainServiceAPI.Controllers
         public async Task<ActionResult<object>> GetToken([FromQuery] string nomeUsuario, [FromQuery] string senhaUsuario)
         {            
             UserAccessResponseDTO userResponseDTO = await _userRepositorio.BuscarPeloNome(nomeUsuario);
+
+            if (userResponseDTO == null)
+                throw new Exception($"Usuário não encontrado");
+
             if (userResponseDTO.SenhaUsuario != senhaUsuario)
                 throw new Exception("Nome de usuário ou senha incorretos");
             UserModels userModels = new UserModels

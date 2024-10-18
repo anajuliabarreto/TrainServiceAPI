@@ -31,7 +31,7 @@ namespace TrainServiceAPI.Repositorio
         {
             UserModels userModels = await _dbContext.Usuarios.FirstOrDefaultAsync((x) => x.NomeUsuario == nomeUsuario);
             if (userModels == null) throw new Exception($"O usuário: {nomeUsuario} não foi encontrado no banco de dados.");
-            return new UserAccessResponseDTO(userModels);
+            return new UserAccessResponseDTO(userModels, null);
         }
 
         public async Task<UserAccessResponseDTO> Adicionar(UserRequestDTO userRequestDTO)
@@ -40,13 +40,14 @@ namespace TrainServiceAPI.Repositorio
             {
                 NomeUsuario = userRequestDTO.NomeUsuario,
                 SenhaUsuario = userRequestDTO.SenhaUsuario,
-            };
+            };            
 
-            string token = TokenService.GenerateToken(userModels);
             await _dbContext.Usuarios.AddAsync(userModels);
             await _dbContext.SaveChangesAsync();
 
-            return new UserAccessResponseDTO(userModels);
+            string token = TokenService.GenerateToken(userModels);
+
+            return new UserAccessResponseDTO(userModels, token);
         }
         public async Task<UserResponseDTO> Atualizar(UserRequestDTO userRequestDTO, int id) 
         {         

@@ -1,4 +1,5 @@
-﻿using TrainServiceAPI.DTO.UserDTO;
+﻿using Microsoft.Extensions.Primitives;
+using TrainServiceAPI.DTO.UserDTO;
 
 namespace TrainServiceAPI.Repositorio.Interface
 {
