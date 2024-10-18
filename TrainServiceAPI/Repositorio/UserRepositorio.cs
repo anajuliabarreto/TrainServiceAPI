@@ -3,6 +3,7 @@ using TrainServiceAPI.Data;
 using TrainServiceAPI.DTO.UserDTO;
 using TrainServiceAPI.Models;
 using TrainServiceAPI.Repositorio.Interface;
+using TrainServiceAPI.Services;
 
 namespace TrainServiceAPI.Repositorio
 {
@@ -33,7 +34,7 @@ namespace TrainServiceAPI.Repositorio
             return new UserAccessResponseDTO(userModels);
         }
 
-        public async Task<UserResponseDTO> Adicionar(UserRequestDTO userRequestDTO)
+        public async Task<UserAccessResponseDTO> Adicionar(UserRequestDTO userRequestDTO)
         {
             UserModels userModels = new UserModels
             {
@@ -41,10 +42,11 @@ namespace TrainServiceAPI.Repositorio
                 SenhaUsuario = userRequestDTO.SenhaUsuario,
             };
 
+            string token = TokenService.GenerateToken(userModels);
             await _dbContext.Usuarios.AddAsync(userModels);
             await _dbContext.SaveChangesAsync();
 
-            return new UserResponseDTO(userModels);
+            return new UserAccessResponseDTO(userModels);
         }
         public async Task<UserResponseDTO> Atualizar(UserRequestDTO userRequestDTO, int id) 
         {         

@@ -9,7 +9,7 @@ namespace TrainServiceAPI.Services
 {
     public class TokenService
     {
-        public static object GenerateToken (UserModels user)
+        public static string GenerateToken (UserModels user)
         {
             var key = Encoding.ASCII.GetBytes(Key.SecretKey); //chamando minha chave privada
             var tokenConfig = new SecurityTokenDescriptor //configura da maneira com que deseja
