@@ -34,10 +34,18 @@ namespace TrainServiceAPI.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult<UserTokenResponseDTO>> Cadastrar([FromBody] UserRequestDTO userRequestDTO)
+        {
+            UserTokenResponseDTO userResponseDTO = await _userRepositorio.Adicionar(userRequestDTO);
+            return Ok(userResponseDTO);
+        }
+
+        [AllowAnonymous]
         [HttpGet("token")]
         public async Task<ActionResult<object>> GetToken([FromQuery] string nomeUsuario, [FromQuery] string senhaUsuario)
         {            
-            UserResponseDTO userResponseDTO = await _userRepositorio.BuscarPeloNome(nomeUsuario);
+            UserAccessResponseDTO userResponseDTO = await _userRepositorio.BuscarPeloNome(nomeUsuario);
 
             if (userResponseDTO == null)
                 throw new Exception($"Usuário não encontrado");
@@ -53,15 +61,7 @@ namespace TrainServiceAPI.Controllers
             return Ok(TokenService.GenerateToken(userModels));            
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<ActionResult<UserAccessResponseDTO>> Cadastrar([FromBody] UserRequestDTO userRequestDTO)
-        {
-            UserAccessResponseDTO userResponseDTO = await _userRepositorio.Adicionar(userRequestDTO);
-            return Ok(userResponseDTO);
-        }
-
-        
+               
         [HttpPut("{id}")]
         public async Task<ActionResult<UserResponseDTO>> Atualizar([FromBody] UserRequestDTO userRequestDTO, int id)
         {
